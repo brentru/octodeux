@@ -38,12 +38,12 @@ var pinfo2 = 'infovar3';
 // Printer 1 API Key
 var apikey = '6CF25166630647CD8D2C7F94A4804BCD';
 // Printer 1 API URL
-var apiURL = 'http://192.168.1.100/api/'
+var apiURL = 'http://127.0.0.1/api/'
 
 // Printer 2 API Key
 var apikey2 = '6CF25166630647CD8D2C7F94A4804BCD';
 // Printer 1 API URL
-var apiURL2 = 'http://192.168.1.100:5001/api/'
+var apiURL2 = 'http://127.0.0.1:5001/api/'
 
 // Printer 1 Job Operations 
 // http://docs.octoprint.org/en/master/api/job.html
