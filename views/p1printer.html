@@ -12,17 +12,25 @@
 
 </head>
 <body>
- <h2>Printer #1: Job File Status</h2>
+ <h2>Printer #1: Printer Status</h2>
 
-<p><h2>File Status:</h2>
-<h3><mark> Print Time Estimate: {{title.job.estimatedPrintTime}}</mark></h3></p>
+<p><h2>Machine status</h2>
 
-<h3><mark> File Name: {{title.job.file.name}}</mark></h3></p>
+<h3><mark>Machine: {{p1.state.text}}</mark></h3></p>
 
-<p><h2>File Progress</h2>
-<h3><mark> File Finished? (1=finished): {{title.progress.completion}}</mark></h3></p>
-<h3><mark> Machine State: {{title.state}}</mark></h3></p>
 
+<h3><mark>SD Card: {{p1.sd.ready}}</mark></h3></p>
+
+<h3><mark>Machine Errors: {{p1.state.flags.error}}</mark></h3></p>
+
+<h3><mark>Ready to print: {{p1.state.flags.ready}}</mark></h3></p>
+
+<h3><mark>SD Card Inserted: {{p1.state.flags.sdReady}}</mark></h3></p>
+
+<h2>Temperatures</h2> 
+
+<h3><mark>Bed Temp.: {{p1.temperature.bed.actual}}</mark></h3></p>
+<h3><mark>Active Tool Temp.: {{p1.temperature.tool0.actual}}</mark></h3></p>
 
  
 </div>
