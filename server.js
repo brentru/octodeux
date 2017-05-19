@@ -1,6 +1,25 @@
-'use strict'
+/*
 
-// requires
+Title: OCTODEUX
+File: Server.js
+Desc: P.O.C of botfarm "dashboard" with 2x 3D Printers
+running Octoprint from 1x Raspberry Pi
+
+Licensing Info: 
+Copyright 2017 github.com/brentru
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR 
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+'use strict'
 const Hapi = require('hapi');
 const Request = require('request');
 const Vision = require('vision');
@@ -8,14 +27,13 @@ const Handlebars = require('handlebars');
 const LodashFilter = require('lodash.filter');
 const LodashTake = require('lodash.take');
 
-// create new hapi server
 const server = new Hapi.Server();
 server.connection({
     host: '127.0.0.1',
     port: 3000
 });
  
-// view handler
+// handle views
 server.register(Vision, (err) => {
     server.views({
         engines: {
@@ -26,24 +44,21 @@ server.register(Vision, (err) => {
     });
 });
 var request = require('request');
-
-// global info variables
-// printer 1
 var info = 'infovar';
-var info2 = 'infovar2';
-// printer 2
 var pinfo = 'infovar3';
+var info2 = 'infovar2';
 var pinfo2 = 'infovar3';
+/* API Config */
+//  Printer 1
+var apikey = 'OCTOPRINT-API-KEY-1';
+var apiURL = 'http://IP-ADDRESS/api/'
+//  Printer 2
+var apikey2 = 'OCTOPRINT-API-KEY-2';
+var apiURL2 = 'http://IP-ADDRESS:SUBNET/api/'
+/* END API Config */
 
-// Printer 1 API Key
-var apikey = '6CF25166630647CD8D2C7F94A4804BCD';
-// Printer 1 API URL
-var apiURL = 'http://192.168.1.100/api/'
 
-// Printer 2 API Key
-var apikey2 = '6CF25166630647CD8D2C7F94A4804BCD';
-// Printer 1 API URL
-var apiURL2 = 'http://192.168.1.100:5001/api/'
+/* OCTOPRINT FUNCTIONS */
 
 // Printer 1 Job Operations 
 // http://docs.octoprint.org/en/master/api/job.html
@@ -116,28 +131,19 @@ function callbackP2(error, response, body) {
     console.log(pinfo2);
   }
 }
+/* END FUNCTIONS */
 
-// request printer 1 operational status
+
+/* STATUS REQUESTS */ 
 request(job, callback);
-console.log(info);
-
-// request printer 1 job status
 request(printer, callbackP);
-console.log(pinfo);
-
-// request printer 2 operational status
 request(job2, callback2);
-console.log(info2);
-
-//  request printer 1 job status
 request(printer2, callbackP2);
-console.log(pinfo2);
+/* END STATUS REQUESTS */
 
 
-
-// START Happi Routes //
+/* Server Routing */
 // https://hapijs.com/tutorials/routing?lang=en_US
-
 // Main Dashboard
 server.route({
     method: 'GET',
@@ -147,7 +153,7 @@ server.route({
     }
 });
 
-// printer 1 operational status
+// P1 OPERATIONAL 
 server.route({
     method: 'GET',
     path: '/p1op',
@@ -157,7 +163,7 @@ server.route({
     }
 });
 
-// printer 2 operational status
+// P2 OPERATIONAL
 server.route({
     method: 'GET',
     path: '/p2op',
@@ -167,7 +173,7 @@ server.route({
     }
 });
 
-// printer 1 printer status
+// P1 STATUS
 server.route({
     method: 'GET',
     path: '/p1printer',
@@ -177,7 +183,7 @@ server.route({
     }
 });
 
-// printer 2 printer status
+// P2 STATUS
 server.route({
     method: 'GET',
     path: '/p2printer',
@@ -187,9 +193,7 @@ server.route({
     }
 });
 
-
-
-// END Happi Routes //
+/* END SERVER ROUTING */
 
 // Server Info
 server.start((err) => {
